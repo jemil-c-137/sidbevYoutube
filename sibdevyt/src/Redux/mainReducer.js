@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { youtubeAPI, loginApi, logOutApi, addRequestToLocalStorage } from './../utils/api/api';
+import { youtubeAPI, loginApi, logOutApi, addRequestToLocalStorage, changeLocalStorageFavs } from './../utils/api/api';
 
 const getUser = JSON.parse(localStorage.getItem('user'));
 
@@ -94,10 +94,13 @@ const videosSlice = createSlice({
       requestToEdit.sortBy = sortBy;
       requestToEdit.name = name;
       requestToEdit.maxResults = maxResults;
+      changeLocalStorageFavs(state.favoriteRequests);
     },
     deleteFavRequest(state, action) {
       const {id} = action.payload;
-      state.favoriteRequests = state.favoriteRequests.filter(request => request.id !== id);
+      const filteredFavs = state.favoriteRequests.filter(request => request.id !== id);
+      state.favoriteRequests = filteredFavs;
+      changeLocalStorageFavs(filteredFavs);
     }
   },
 

@@ -41,6 +41,15 @@ export const addRequestToLocalStorage = (favRequest) => {
   localStorage.setItem('user', JSON.stringify(userLocalStorage))
 }
 
+export const changeLocalStorageFavs = (favorites) => {
+  const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+  if(!userLocalStorage.favRequests) {
+    userLocalStorage.favRequests = []
+  }
+  userLocalStorage.favRequests = favorites;
+  console.log(userLocalStorage);
+  localStorage.setItem('user', JSON.stringify(userLocalStorage))
+}
 
 export const youtubeAPI = {
   search(requestWords) {

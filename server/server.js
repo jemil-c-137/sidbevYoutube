@@ -31,9 +31,6 @@ const users = [
 
 let refreshTokens = [];
 
-
-
-
 app.post('/token', (req, res) => {
   const refreshToken = req.body.token;
   if (refreshToken == null) return res.sendStatus(401);
@@ -52,8 +49,7 @@ app.delete('/logout', (req, res) => {
 
 app.post('/login', (req, res) => {
   // Authenticate
-  const username = req.body.username;
-  const password = req.body.password;
+  const { username, password } = req.body;
 
   try {
     if (!username || !password) {
@@ -68,7 +64,7 @@ app.post('/login', (req, res) => {
     }
 
     const accessToken = generateAccessToken(loggingUser);
-  
+
     res.json({ accessToken: accessToken, username: validUser.username });
   } catch (error) {
     res.send({ message: `${error.message}` });
