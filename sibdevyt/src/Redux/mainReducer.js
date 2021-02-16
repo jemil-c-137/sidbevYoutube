@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { youtubeAPI, loginApi, logOutApi } from './../utils/api/api';
+import { youtubeAPI, loginApi, logOutApi, addRequestToLocalStorage } from './../utils/api/api';
 
-const user = JSON.parse(localStorage.getItem('user'));
+const getUser = JSON.parse(localStorage.getItem('user'));
+
+// check if user has token
+const user = getUser && getUser.accessToken ? getUser : null;
+const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : []
 
 const initialState = {
   userData: user
@@ -22,9 +26,8 @@ const initialState = {
   },
   totalResults: 0,
   loading: false,
-  favoriteRequests: user.favRequests || [],
-};
-
+  favoriteRequests: userFavrequests
+}
 export const fetchVideos = createAsyncThunk('items/fetchVideos', async (requestName, number) => {
   const preparedRequest = requestName.split(' ').join('+');
   const res = await youtubeAPI.search(preparedRequest).then((response) => response.data);
@@ -42,7 +45,6 @@ export const favoriteRequestFetch = createAsyncThunk(
 
 export const loginUser = createAsyncThunk('items/loginUser', async ({ username, password }) => {
   const res = await loginApi(username, password).then((response) => response.username);
-  debugger;
   return { data: res };
 });
 
@@ -60,6 +62,7 @@ const videosSlice = createSlice({
     addFavRequest: {
       reducer(state, action) {
         state.favoriteRequests.push(action.payload);
+        addRequestToLocalStorage(action.payload)
         state.currentRequest = action.payload;
       },
       prepare({ request, maxResults, name, sortBy }) {

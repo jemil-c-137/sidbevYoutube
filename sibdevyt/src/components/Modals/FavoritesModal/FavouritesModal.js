@@ -11,32 +11,9 @@ const FavouritesModal = ({ initialVisible, handleClose, editMode }) => {
   const { request, sortBy, maxResults, name, id } = useSelector((state) => state.root.currentRequest);
 
   const [visible, setVisible] = useState(initialVisible);
-
-  // set maxResults for request( 12 def.)
-  const [maxResultsValue, setMaxResultsValue] = useState(0);
-
   const [requestValue, setRequestValue] = useState(request || '');
-  const [sortByValue, setSortByValue] = useState(sortBy || '');
-  const [maxResultsNumber, setMaxResultsNumber] = useState(maxResults || 0);
   const [nameValue, setNameValue] = useState(name || '');
-
-  const onRequestChange = (e) => {
-    setRequestValue(e.target.value);
-  }
-
-  const onSortByChange = (e) => {
-    setSortByValue(e.target.value);
-  }
-
-  
-  const onMaxResultChange = (e) => {
-    setMaxResultsNumber(e.target.value);
-  }
-
-  
-  const onNameChange = (e) => {
-    setNameValue(e.target.value);
-  }
+  const [maxResultsValue, setMaxResultsValue] = useState(0);
 
   const [form] = Form.useForm();
   const dispatch = useDispatch();
@@ -45,6 +22,15 @@ const FavouritesModal = ({ initialVisible, handleClose, editMode }) => {
     setVisible(initialVisible);
     setMaxResultsValue(maxResults);
   }, [initialVisible]);
+
+
+  const onRequestChange = (e) => {
+    setRequestValue(e.target.value);
+  }
+
+  const onNameChange = (e) => {
+    setNameValue(e.target.value);
+  }
 
   const handleCancel = () => {
     // dispatch(clearCurrentRequest());
@@ -58,16 +44,7 @@ const FavouritesModal = ({ initialVisible, handleClose, editMode }) => {
       dispatch(updateFavRequest({ request: requestName || request, name, maxResults: maxResultsValue, sortBy, id }));
     } else {
       const favRequest = { request: request, name, maxResults: maxResultsValue, sortBy: sortBy || 'relevance' };
-
       dispatch(addFavRequest(favRequest));
-
-      //add favrequest to local storage
-      const userLocalStorage = JSON.parse(localStorage.getItem('user'));
-      if (!userLocalStorage.favRequests) {
-        userLocalStorage.favRequests = [];
-      }
-      userLocalStorage.favRequests.push(favRequest);
-      //localStorage.setItem('user', userLocalStorage);
     }
     handleClose();
   };
@@ -75,8 +52,6 @@ const FavouritesModal = ({ initialVisible, handleClose, editMode }) => {
   const onChange = (value) => {
     setMaxResultsValue(value);
   };
-
-  console.log('render', 'namevalue: ', nameValue, 'maxResukts:' ,maxResultsValue, 'requestValue', requestValue, 'sort: ', sortByValue);
 
   return (
     <div>

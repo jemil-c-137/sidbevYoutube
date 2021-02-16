@@ -31,6 +31,16 @@ export const logOutApi = () => {
   localStorage.removeItem('user');
 }
 
+export const addRequestToLocalStorage = (favRequest) => {
+  const userLocalStorage = JSON.parse(localStorage.getItem('user'));
+  if(!userLocalStorage.favRequests) {
+    userLocalStorage.favRequests = []
+  }
+  userLocalStorage.favRequests.push(favRequest);
+  console.log(userLocalStorage);
+  localStorage.setItem('user', JSON.stringify(userLocalStorage))
+}
+
 
 export const youtubeAPI = {
   search(requestWords) {

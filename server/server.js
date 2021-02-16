@@ -17,97 +17,70 @@ app.use(cors(corsOptions));
 const users = [
   {
     username: 'michael',
-    password: 'admin'
+    password: 'admin',
   },
   {
     username: 'jim',
-    password: 'qwerty'
+    password: 'qwerty',
   },
   {
     username: 'dwight',
-    password: 'password'
-  }
-]
+    password: 'password',
+  },
+];
 
-
-let refreshTokens = [
-
-]
-
-
-// 
-app.get('/users', authenticateToken,  (req, res) => {
-  res.json(users.filter(user => user.username === req.loggingUser.name))
-})
-
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
-  if(token == null) return res.status(401).send({message: 'No provided token'})
-
-  
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, loggingUser) => {
-    if (err) return res.sendStatus(403)
-    req.loggingUser = loggingUser;
-    next()
-  })
-}
+let refreshTokens = [];
 
 
 
 
 app.post('/token', (req, res) => {
   const refreshToken = req.body.token;
-  if(refreshToken == null) return res.sendStatus(401)
-  if(!refreshTokens.includes(refreshToken)) return res.sendStatus(403)
+  if (refreshToken == null) return res.sendStatus(401);
+  if (!refreshTokens.includes(refreshToken)) return res.sendStatus(403);
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, loggingUser) => {
-    if (err) return res.sendStatus(403)
-    const accessToken = generateAccessToken({name: loggingUser.name})
-    res.json({accessToken: accessToken})
-  })
-})
+    if (err) return res.sendStatus(403);
+    const accessToken = generateAccessToken({ name: loggingUser.name });
+    res.json({ accessToken: accessToken });
+  });
+});
 
 app.delete('/logout', (req, res) => {
-  refreshTokens = refreshTokens.filter(token => token !== req.body.token);
-  res.sendStatus(204)
-})
+  refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+  res.sendStatus(204);
+});
 
 app.post('/login', (req, res) => {
   // Authenticate
   const username = req.body.username;
   const password = req.body.password;
-  
-  console.log('fired', username, password);
 
   try {
-    
-    if(!username || !password) {
-      throw new Error('не предоставлены логин или пароль')
+    if (!username || !password) {
+      throw new Error('не предоставлены логин или пароль');
     }
     const loggingUser = { name: username };
 
-    const validUser = users.find(user => user.username === username && user.password === password)
+    const validUser = users.find((user) => user.username === username && user.password === password);
 
-    if(!validUser) {
-      res.send({message: 'Неверные логин или пароль'})
+    if (!validUser) {
+      res.send({ message: 'Неверные логин или пароль' });
     }
-  
-    const accessToken = generateAccessToken(loggingUser);
-    const refreshToken = jwt.sign(loggingUser, process.env.REFRESH_TOKEN_SECRET);
-    refreshTokens.push(refreshToken)
-    res.json({ accessToken: accessToken, refreshToken: refreshToken, username: validUser.username });
 
+    const accessToken = generateAccessToken(loggingUser);
+  
+    res.json({ accessToken: accessToken, username: validUser.username });
   } catch (error) {
-    res.send({message: `${error.message}`})
+    res.send({ message: `${error.message}` });
   }
 });
 
 function generateAccessToken(loggingUser) {
-  return jwt.sign(loggingUser, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '30m' });
+  return jwt.sign(loggingUser, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '7d' });
 }
 
 const PORT = 5000;
 
 app.listen(PORT, () => {
   console.log('server open on port', PORT);
-})
+});
