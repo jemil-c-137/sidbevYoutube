@@ -7,6 +7,8 @@ const getUser = JSON.parse(localStorage.getItem('user'));
 const user = getUser && getUser.accessToken ? getUser : null;
 const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : []
 
+debugger;
+
 const initialState = {
   userData: user
     ? {
@@ -129,7 +131,11 @@ const videosSlice = createSlice({
       state.userData.username = data;
       state.userData.logging = false;
     },
-    [logOut.fulfilled]: (state) => initialState,
+    [logOut.fulfilled]: (state, action) => {
+      const init = initialState
+      init.favoriteRequests = [];
+      return init;
+    }
   },
 });
 
