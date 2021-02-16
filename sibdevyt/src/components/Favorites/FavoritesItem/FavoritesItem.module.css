@@ -1,0 +1,34 @@
+
+.favItem {
+  background: #fff;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  padding: 20px 15px;
+  border-bottom: 1px solid #f1f1f1;
+  margin-bottom: 0;
+  width: 100%;
+
+}
+
+.favWrapper {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+
+}
+
+.hover {
+  background: #e5e5e5;
+}
+
+.buttonsBox {
+  position: absolute;
+  z-index: 50;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+
+  display: flex;
+}

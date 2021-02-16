@@ -1,0 +1,24 @@
+.title {
+  font-size: 18px;
+  line-height: 28px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.modalWrapper {
+  max-width: 500px;
+}
+
+.buttonsWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.sliderWrapper {
+  display: flex;
+}
+
+.slider {
+  width: 100%;
+  margin-right: 10px;
+}

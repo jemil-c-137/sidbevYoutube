@@ -1,0 +1,34 @@
+.container {
+  background-color: #fff;
+  width: 100%;
+}
+
+.wrapper {
+  display: flex;
+  align-items: center;
+  max-width: 1040px;
+  margin: 0 auto;
+    height: 80px;
+}
+
+.headerLogo {
+  width: 48px;
+  display: block;
+  max-width: 100%;
+}
+
+.tab {
+  margin-left: auto;
+}
+
+
+
+.tabsContainer > div > div > div, 
+.tabsContainer > div > div,
+.tabsContainer {
+  width: 100%;
+}
+
+.tabsContainer > div > div > div > div:nth-child(3) {
+  margin-left: auto;
+}

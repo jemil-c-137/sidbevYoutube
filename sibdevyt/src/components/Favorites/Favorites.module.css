@@ -1,0 +1,18 @@
+.textItemList {
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  margin-bottom: 0;
+  padding-left: 10px;
+  display: block;
+}
+
+.listItemTag {
+  background: #fff;
+}
+
+
+
+.listItemTag:hover {
+  background: #e5e5e5;
+}

@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.formWrapper {
+  background: #fff;
+  text-align: center;
+  padding: 40px 88px 60px 88px;
+  border: 1px solid rgba(39, 39, 39, 0.1);
+  border-radius: 5px;
+}
+
+
+.logo {
+  margin-bottom: 32px;
+}
+
