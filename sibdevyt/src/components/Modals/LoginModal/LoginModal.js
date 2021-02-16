@@ -7,13 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 const { Title } = Typography;
 
 const LoginModal = () => {
-  const onFinish = () => {
-    console.log('object');
-  };
-
-  const onFinishFailed = () => {
-    console.log('object');
-  };
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -51,7 +44,6 @@ const LoginModal = () => {
             layout="vertical"
             className={styles.form}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
           >
             <Form.Item label="Логин" name="username">
               <Input placeholder="Логин" value={username} onChange={onUsernameChange} />

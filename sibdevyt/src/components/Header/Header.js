@@ -1,16 +1,13 @@
 import React from 'react';
-import { Tabs, Button } from 'antd';
+import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import logo from '../../assests/img/sibdev-logo.png';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
-import {clearcVideos, clearVideos, logOut} from '../../Redux/mainReducer'
+import { clearVideos, logOut} from '../../Redux/mainReducer'
 import {useDispatch} from 'react-redux'
 
-const { TabPane } = Tabs;
-
 const Header = () => {
-  console.log('rendered header');
 
   const dispatch = useDispatch()
 

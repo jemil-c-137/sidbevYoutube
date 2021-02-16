@@ -37,7 +37,6 @@ export const addRequestToLocalStorage = (favRequest) => {
     userLocalStorage.favRequests = []
   }
   userLocalStorage.favRequests.push(favRequest);
-  console.log(userLocalStorage);
   localStorage.setItem('user', JSON.stringify(userLocalStorage))
 }
 
@@ -47,7 +46,6 @@ export const changeLocalStorageFavs = (favorites) => {
     userLocalStorage.favRequests = []
   }
   userLocalStorage.favRequests = favorites;
-  console.log(userLocalStorage);
   localStorage.setItem('user', JSON.stringify(userLocalStorage))
 }
 

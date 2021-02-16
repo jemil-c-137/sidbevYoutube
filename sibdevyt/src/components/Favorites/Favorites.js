@@ -20,7 +20,6 @@ const Favorites = () => {
   const dispatch = useDispatch();
 
   const handleChange = () => {
-    debugger
     setVisible(!visible);
   };
 
