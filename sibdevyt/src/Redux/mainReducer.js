@@ -134,9 +134,7 @@ const videosSlice = createSlice({
       state.userData.logging = false;
     },
     [logOut.fulfilled]: (state, action) => {
-      const init = initialState
-      init.favoriteRequests = [];
-      return init;
+      return {...initialState, favoriteRequests: []}
     }
   },
 });
