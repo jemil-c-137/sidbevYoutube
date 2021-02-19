@@ -1,4 +1,7 @@
 # sidbevYoutube
+
+## Not finished yet, in process  🚧 :) 
+
 ## start app in dev mode.
 1) install packages in both `server` and `sibdevyt` directories 
 2) go to server directory and start server
