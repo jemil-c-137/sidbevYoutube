@@ -4,7 +4,8 @@ import 'antd/dist/antd.css';
 import logo from '../../assests/img/sibdev-logo.png';
 import styles from './Header.module.css';
 import { Link } from 'react-router-dom';
-import { clearVideos, logOut} from '../../Redux/mainReducer'
+import { clearVideos} from '../../Redux/mainReducer'
+import {logOut} from '../../Redux/features/authSlice'
 import {useDispatch} from 'react-redux'
 
 const Header = () => {

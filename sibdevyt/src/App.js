@@ -12,7 +12,17 @@ import { useSelector } from 'react-redux';
 
 function App() {
   // check is user logged;
-  const { username } = useSelector((state) => state.root.userData);
+  const { username } = useSelector((state) => state.auth);
+
+  const redirectToLogin = () => {
+    return <Redirect to='/login' />
+  }
+
+  useEffect(() => {
+    if(!username) {
+      redirectToLogin()
+    }
+  }, [username])
 
   return (
     <Router>

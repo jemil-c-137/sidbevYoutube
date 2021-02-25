@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
-import { youtubeAPI, loginApi, logOutApi, addRequestToLocalStorage, changeLocalStorageFavs } from './../utils/api/api';
+import { youtubeAPI, addRequestToLocalStorage, changeLocalStorageFavs } from './../utils/api/api';
+import { logOut } from './features/authSlice';
 
 const getUser = JSON.parse(localStorage.getItem('user'));
 
@@ -8,6 +9,7 @@ const user = getUser && getUser.accessToken ? getUser : null;
 const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : [];
 
 const initialState = {
+  /*
   userData: user
     ? {
         logging: false,
@@ -17,6 +19,7 @@ const initialState = {
         logging: false,
         username: '',
       },
+      */
   videos: [],
   currentRequest: {
     request: '',
@@ -27,8 +30,10 @@ const initialState = {
   totalResults: 0,
   loading: false,
   favoriteRequests: userFavrequests,
+  /*
   error: false,
   errorMessage: ''
+  */
 };
 export const fetchVideos = createAsyncThunk('items/fetchVideos', async (requestName, number) => {
   const preparedRequest = requestName.split(' ').join('+');
@@ -44,7 +49,7 @@ export const favoriteRequestFetch = createAsyncThunk(
     return { data: res, request };
   }
 );
-
+/*
 export const loginUser = createAsyncThunk('items/loginUser', async (userData, { rejectWithValue }) => {
   try {
     const { username, password } = userData;
@@ -66,7 +71,7 @@ export const logOut = createAsyncThunk('items/logOut', async () => {
   await logOutApi();
   return initialState;
 });
-
+*/
 let nextRequestId = 0;
 
 const videosSlice = createSlice({
@@ -115,7 +120,6 @@ const videosSlice = createSlice({
       changeLocalStorageFavs(filteredFavs);
     },
   },
-
   // async reducers
   extraReducers: {
     [fetchVideos.pending]: (state, action) => {
@@ -138,6 +142,7 @@ const videosSlice = createSlice({
       state.totalResults = data.pageInfo.totalResults;
       state.loading = false;
     },
+    /*
     [loginUser.pending]: (state, action) => {
       state.userData.logging = true;
     },
@@ -153,9 +158,12 @@ const videosSlice = createSlice({
       state.errorMessage = payload.data.message;
       state.userData.logging = false;
     },
+    */
     [logOut.fulfilled]: (state, action) => {
+      debugger
       return { ...initialState, favoriteRequests: [] };
     },
+    
   },
 });
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './LoginModal.module.css';
 import { Form, Input, Button, Typography, Spin, Alert } from 'antd';
 import logo from '../../../assests/img/sibdev-logo.png';
-import { loginUser } from './../../../Redux/mainReducer';
+import { loginUser } from './../../../Redux/features/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 const { Title } = Typography;
 
@@ -10,9 +10,8 @@ const LoginModal = () => {
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const { logging } = useSelector((state) => state.root.userData);
+  const { logging, error, errorMessage } = useSelector((state) => state.auth);
   
-  const {error, errorMessage} = useSelector(state => state.root);
 
   const dispatch = useDispatch();
 
@@ -25,6 +24,7 @@ const LoginModal = () => {
   };
 
   const onSubmitButton = () => {
+    debugger;
     dispatch(loginUser({ username, password }));
   };
 
