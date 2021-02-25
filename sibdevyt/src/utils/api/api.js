@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 export const sortByAPIparamsType = {
   date: 'date',
   rating: 'rating',
@@ -12,6 +11,9 @@ export const sortByAPIparamsType = {
 
 const instance = axios.create({
   baseURL: 'https://www.googleapis.com/youtube/v3/',
+  headers: {
+    
+  }
 });
 
 const authApi = axios.create({
@@ -19,35 +21,36 @@ const authApi = axios.create({
 });
 
 export const loginApi = (username, password) => {
-  return authApi.post('login', {username, password}).then(response => {
+  return authApi.post('login', { username, password }).then((response) => {
+    console.log(response);
     if (response.data.accessToken) {
-      localStorage.setItem('user', JSON.stringify(response.data))
+      localStorage.setItem('user', JSON.stringify(response.data));
     }
-    return response.data
-  })
-} 
+    return response;
+  });
+};
 
 export const logOutApi = () => {
   localStorage.removeItem('user');
-}
+};
 
 export const addRequestToLocalStorage = (favRequest) => {
   const userLocalStorage = JSON.parse(localStorage.getItem('user'));
-  if(!userLocalStorage.favRequests) {
-    userLocalStorage.favRequests = []
+  if (!userLocalStorage.favRequests) {
+    userLocalStorage.favRequests = [];
   }
   userLocalStorage.favRequests.push(favRequest);
-  localStorage.setItem('user', JSON.stringify(userLocalStorage))
-}
+  localStorage.setItem('user', JSON.stringify(userLocalStorage));
+};
 
 export const changeLocalStorageFavs = (favorites) => {
   const userLocalStorage = JSON.parse(localStorage.getItem('user'));
-  if(!userLocalStorage.favRequests) {
-    userLocalStorage.favRequests = []
+  if (!userLocalStorage.favRequests) {
+    userLocalStorage.favRequests = [];
   }
   userLocalStorage.favRequests = favorites;
-  localStorage.setItem('user', JSON.stringify(userLocalStorage))
-}
+  localStorage.setItem('user', JSON.stringify(userLocalStorage));
+};
 
 export const youtubeAPI = {
   search(requestWords) {

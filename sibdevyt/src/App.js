@@ -8,6 +8,8 @@ import LoginModal from './components/Modals/LoginModal/LoginModal';
 import Favorites from './components/Favorites/Favorites';
 import { useSelector } from 'react-redux';
 
+
+
 function App() {
   // check is user logged;
   const { username } = useSelector((state) => state.root.userData);
@@ -33,13 +35,14 @@ function App() {
       ) : (
         <Redirect to="/login" />
       )}
-      <Route path="/login" component={LoginModal} />
+      <div className={styles.loginWrapper}>
+        <Route path="/login" component={LoginModal} />
+      </div>
     </Router>
   );
 }
 
 export default App;
-
 
 /*return (
     <Router>

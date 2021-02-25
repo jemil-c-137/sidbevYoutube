@@ -1,12 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
 import { youtubeAPI, loginApi, logOutApi, addRequestToLocalStorage, changeLocalStorageFavs } from './../utils/api/api';
 
 const getUser = JSON.parse(localStorage.getItem('user'));
 
 // check if user has token
 const user = getUser && getUser.accessToken ? getUser : null;
-const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : []
-
+const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : [];
 
 const initialState = {
   userData: user
@@ -27,8 +26,10 @@ const initialState = {
   },
   totalResults: 0,
   loading: false,
-  favoriteRequests: userFavrequests
-}
+  favoriteRequests: userFavrequests,
+  error: false,
+  errorMessage: ''
+};
 export const fetchVideos = createAsyncThunk('items/fetchVideos', async (requestName, number) => {
   const preparedRequest = requestName.split(' ').join('+');
   const res = await youtubeAPI.search(preparedRequest).then((response) => response.data);
@@ -44,9 +45,21 @@ export const favoriteRequestFetch = createAsyncThunk(
   }
 );
 
-export const loginUser = createAsyncThunk('items/loginUser', async ({ username, password }) => {
-  const res = await loginApi(username, password).then((response) => response.username);
-  return { data: res };
+export const loginUser = createAsyncThunk('items/loginUser', async (userData, { rejectWithValue }) => {
+  try {
+    const { username, password } = userData;
+    const response = await loginApi(username, password);
+    console.log(response);
+    debugger;
+    return response;
+  } catch (error) {
+    let { response } = error;
+    if (!response) {
+      throw error;
+    }
+    debugger;
+    return rejectWithValue(response);
+  }
 });
 
 export const logOut = createAsyncThunk('items/logOut', async () => {
@@ -63,7 +76,7 @@ const videosSlice = createSlice({
     addFavRequest: {
       reducer(state, action) {
         state.favoriteRequests.push(action.payload);
-        addRequestToLocalStorage(action.payload)
+        addRequestToLocalStorage(action.payload);
         state.currentRequest = action.payload;
       },
       prepare({ request, maxResults, name, sortBy }) {
@@ -96,11 +109,11 @@ const videosSlice = createSlice({
       changeLocalStorageFavs(state.favoriteRequests);
     },
     deleteFavRequest(state, action) {
-      const {id} = action.payload;
-      const filteredFavs = state.favoriteRequests.filter(request => request.id !== id);
+      const { id } = action.payload;
+      const filteredFavs = state.favoriteRequests.filter((request) => request.id !== id);
       state.favoriteRequests = filteredFavs;
       changeLocalStorageFavs(filteredFavs);
-    }
+    },
   },
 
   // async reducers
@@ -129,13 +142,20 @@ const videosSlice = createSlice({
       state.userData.logging = true;
     },
     [loginUser.fulfilled]: (state, action) => {
-      const { data } = action.payload;
+      const { data: data } = action.payload;
+      debugger;
       state.userData.username = data;
       state.userData.logging = false;
     },
+    [loginUser.rejected]: (state, action) => {
+      const { payload } = action;
+      state.error = true;
+      state.errorMessage = payload.data.message;
+      state.userData.logging = false;
+    },
     [logOut.fulfilled]: (state, action) => {
-      return {...initialState, favoriteRequests: []}
-    }
+      return { ...initialState, favoriteRequests: [] };
+    },
   },
 });
 

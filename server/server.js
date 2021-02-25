@@ -51,24 +51,22 @@ app.post('/login', (req, res) => {
   // Authenticate
   const { username, password } = req.body;
 
-  try {
     if (!username || !password) {
-      throw new Error('не предоставлены логин или пароль');
+      return res.status(401).send({message: 'Введите логин или пароль пользователя'});
     }
     const loggingUser = { name: username };
 
     const validUser = users.find((user) => user.username === username && user.password === password);
 
     if (!validUser) {
-      res.send({ message: 'Неверные логин или пароль' });
+      return res.status(401).send({message: 'Неверные логин или пароль пользователя'});
     }
 
     const accessToken = generateAccessToken(loggingUser);
 
     res.json({ accessToken: accessToken, username: validUser.username });
-  } catch (error) {
-    res.send({ message: `${error.message}` });
-  }
+    
+  
 });
 
 function generateAccessToken(loggingUser) {

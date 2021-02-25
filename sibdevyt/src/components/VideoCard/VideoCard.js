@@ -11,7 +11,7 @@ const VideoCard = (props) => {
     <div>
       <div className={styles.card}>
         <div className={styles.cardImage}>
-          <ReactPlayer  config={{ playerVars: { showinfo: 1 } }} width='245px' height="140px" url={`https://www.youtube.com/watch?v=${props.video.id.videoId}`} />
+          <ReactPlayer  config={{ playerVars: { showinfo: 1, 'origin': 'http://localhost:3000'  } }} width='245px' height="140px" url={`www.youtube.com/watch?v=${props.video.id.videoId}`} />
         </div>
         <p className={styles.cardTitle}>{props.video.snippet.title}</p>
         <p className={styles.cardDescription}>{props.video.snippet.channelTitle}</p>
