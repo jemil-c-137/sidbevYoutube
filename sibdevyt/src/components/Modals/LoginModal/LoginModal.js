@@ -4,6 +4,7 @@ import { Form, Input, Button, Typography, Spin, Alert } from 'antd';
 import logo from '../../../assests/img/sibdev-logo.png';
 import { loginUser } from './../../../Redux/features/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 const { Title } = Typography;
 
 const LoginModal = () => {
@@ -12,7 +13,7 @@ const LoginModal = () => {
   const [password, setPassword] = useState('');
   const { logging, error, errorMessage } = useSelector((state) => state.auth);
   
-
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const onUsernameChange = (value) => {
@@ -23,9 +24,9 @@ const LoginModal = () => {
     setPassword(value.target.value);
   };
 
-  const onSubmitButton = () => {
-    debugger;
-    dispatch(loginUser({ username, password }));
+  const onSubmitButton = async () => {
+    await dispatch(loginUser({ username, password }));
+    history.push('/search');
   };
 
 

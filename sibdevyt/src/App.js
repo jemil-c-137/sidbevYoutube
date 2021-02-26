@@ -6,76 +6,42 @@ import SearchComponent from './components/Search/Search';
 import VideosGrid from './components/VideosGrid/VideosGrid';
 import LoginModal from './components/Modals/LoginModal/LoginModal';
 import Favorites from './components/Favorites/Favorites';
-import { useSelector } from 'react-redux';
-
-
+import { useSelector, useDispatch } from 'react-redux';
+import SearchPage from './components/Pages/SearchPage';
+import FavsPage from './components/Pages/FavsPage';
+import Component404 from './views/Component404';
+import { getUser } from './Redux/features/authSlice';
 
 function App() {
   // check is user logged;
   const { username } = useSelector((state) => state.auth);
 
-  const redirectToLogin = () => {
-    return <Redirect to='/login' />
-  }
+  const dispatch = useDispatch();
+
+  const protectedRoute = (Component) => {
+    return username ? Component : <Redirect to="/login" />;
+  };
 
   useEffect(() => {
-    if(!username) {
-      redirectToLogin()
-    }
-  }, [username])
+    dispatch(getUser());
+  }, [])
 
   return (
     <Router>
-      {username ? (
+      <Switch>
         <div>
-          <Redirect to="/search" />
           <div className={styles.container}>
-            <Header />
+            {username && <Header />}
             <div className={styles.wrapper}>
-              <Route path="/search">
-                <div className={styles.searchPage}>
-                  <SearchComponent />
-                  <VideosGrid />
-                </div>
-              </Route>
-              <Route path="/favs" component={Favorites} />
+              {!username && <Route path="/login" render={() => <LoginModal />} />}
+              {protectedRoute(<Route  path="/favs" render={() => <FavsPage />} />)}
+              {protectedRoute(<Route path="/search" render={() => <SearchPage />} />)}
             </div>
           </div>
         </div>
-      ) : (
-        <Redirect to="/login" />
-      )}
-      <div className={styles.loginWrapper}>
-        <Route path="/login" component={LoginModal} />
-      </div>
+      </Switch>
     </Router>
   );
 }
 
 export default App;
-
-/*return (
-    <Router>
-      {username ? (
-        <div>
-          <Redirect to="/search" />
-          <div className={styles.container}>
-            <Header />
-            <div className={styles.wrapper}>
-              <Route path="/search">
-                <div className={styles.searchPage}>
-                  <SearchComponent />
-                  <VideosGrid />
-                </div>
-              </Route>
-              <Route path="/favs" component={Favorites} />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <Redirect to="/login" />
-      )}
-      <Route path="/login" component={LoginModal} />
-    </Router>
-  );
-  */

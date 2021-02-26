@@ -21,10 +21,8 @@ const authApi = axios.create({
 });
 
 export const loginApi = (username, password) => {
-  debugger
   return authApi.post('login', { username, password }).then((response) => {
     console.log(response);
-    debugger
     if (response.data.accessToken) {
       localStorage.setItem('user', JSON.stringify(response.data));
     }
@@ -35,6 +33,11 @@ export const loginApi = (username, password) => {
 export const logOutApi = () => {
   localStorage.removeItem('user');
 };
+
+export const getLocalStorage = () => {
+  const getUser = JSON.parse(localStorage.getItem('user'));
+  return getUser && getUser.accessToken ? getUser : null;
+}
 
 export const addRequestToLocalStorage = (favRequest) => {
   const userLocalStorage = JSON.parse(localStorage.getItem('user'));

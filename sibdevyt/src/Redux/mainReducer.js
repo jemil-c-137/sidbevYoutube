@@ -2,11 +2,6 @@ import { createSlice, createAsyncThunk, unwrapResult } from '@reduxjs/toolkit';
 import { youtubeAPI, addRequestToLocalStorage, changeLocalStorageFavs } from './../utils/api/api';
 import { logOut } from './features/authSlice';
 
-const getUser = JSON.parse(localStorage.getItem('user'));
-
-// check if user has token
-const user = getUser && getUser.accessToken ? getUser : null;
-const userFavrequests = getUser && getUser.favRequests ? getUser.favRequests : [];
 
 const initialState = {
   /*
@@ -29,7 +24,7 @@ const initialState = {
   },
   totalResults: 0,
   loading: false,
-  favoriteRequests: userFavrequests,
+  favoriteRequests: [],
   /*
   error: false,
   errorMessage: ''
@@ -160,7 +155,6 @@ const videosSlice = createSlice({
     },
     */
     [logOut.fulfilled]: (state, action) => {
-      debugger
       return { ...initialState, favoriteRequests: [] };
     },
     
