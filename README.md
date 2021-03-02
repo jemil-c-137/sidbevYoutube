@@ -1,6 +1,7 @@
 # sidbevYoutube
 
-## Not finished yet, in process  🚧 :) 
+## React app that allows to search videos on youtuve by keywords.
+### Technologies and tools used: *React*, *Redux toolkit*, *Axios* and *Node*(for simple mock server)
 
 ## start app in dev mode.
 1) install packages in both `server` and `sibdevyt` directories 
@@ -11,6 +12,7 @@ Server will open on localhost:5000;
 `npm start`
 
 ## Client will open on login page
+  __By terms of reference this app shouldn't contain registration. That's why you have to use one of provided accounts__. (Registration will be added soon)
   To get access you need to enter one of following users name and password:
   
 1)
