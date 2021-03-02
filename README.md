@@ -12,6 +12,7 @@ Server will open on localhost:5000;
 `npm start`
 
 ## Client will open on login page
+  **By terms of reference this app shouldn't contain registration. That's why you have to use one of provided accounts**. (Registration will be added soon)
   To get access you need to enter one of following users name and password:
   
 1)
